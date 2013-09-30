@@ -1,0 +1,104 @@
+#!/usr/bin/env python
+# -*-coding: utf-8 -*-
+"""
+closurify.py -- Run the Google Closure Compiler as a web service,
+
+Created by Damian Cugley on 2010-08-15.
+
+© 2010 Damian Cugley.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.  This file is offered as-is,
+without any warranty.
+"""
+
+import sys
+import os
+import httplib2, urllib
+import re
+
+
+help_message = '''
+The help message goes here.
+'''
+
+endpoint = 'http://closure-compiler.appspot.com/compile'
+compilation_levels = ['WHITESPACE_ONLY', 'SIMPLE_OPTIMIZATIONS', 'ADVANCED_OPTIMIZATIONS']
+output_infos = ['compiled_code', 'warnings', 'errors', 'statistics']
+output_formats = ['text', 'json', 'xml']
+
+ext_re = re.compile('(?:\.c)*\.js$')
+
+class CouldNotCompile(Exception): pass
+
+def closurify(js_file, compilation_level=None, output_info=None, output_format=None):
+    c_js_file = ext_re.sub('.min.js', js_file)
+    if js_file == c_js_file:
+        raise Usage('Output file would be the same as output file')
+    result = get_closure_compiler_result(js_file, compilation_level, output_info, output_format)
+    if not result.lstrip() and not output_info or output_info == 'compiled_code':
+         errors = get_closure_compiler_result(js_file, compilation_level, 'errors', 'text')
+         print >>sys.stderr, errors
+         raise CouldNotCompile('Could not compile')
+    with open(c_js_file, 'wt') as output:
+        output.write(result)
+    print >>sys.stderr, '\nWrote JavaScript to', c_js_file
+    
+def get_closure_compiler_result(js_file, compilation_level=None, output_info=None, output_format=None):
+    print >>sys.stderr, '( %s' % js_file,
+    http = httplib2.Http(os.path.expanduser('~/Library/httplib2'))
+    params = {
+        'js_code': open(js_file, 'rb').read(),
+        'output_info': output_info or 'compiled_code',
+    }
+    if compilation_level and compilation_level != 'SIMPLE_OPTIMIZATIONS':
+        params['compilation_level'] = compilation_level
+    if output_format and output_format != 'text':
+        params['output_format'] = output_format
+    data = urllib.urlencode(params)
+    response, body = http.request(endpoint, 'POST', data, {
+        'Content-type': 'application/x-www-form-urlencoded',        
+    })
+    print >>sys.stderr, ') ',
+    return body
+
+class Usage(Exception):
+    def __init__(self, msg):
+        self.msg = msg
+
+
+def main(argv=None):
+    if argv is None:
+        argv = sys.argv
+    try:
+        try:
+            opts, args = getopt.getopt(argv[1:], "hvO:", ["help",'verbose', 'optimizations=', 'optimize='])
+        except getopt.error, msg:
+            raise Usage(msg)
+    
+        # option processing
+        compilation_level = None
+        for option, value in opts:
+            if option in ['-v', '--verbose']:
+                verbose = True
+            elif option in ("-h", "--help"):
+                raise Usage(help_message)
+            elif option in ['-O', '--optimize', '--optimizations=', '--optimizations']:
+                compilation_level = '%s_OPTIMIZATIONS' % value.upper()
+                
+        for arg in args:
+            closurify(arg, compilation_level)
+    
+    except CouldNotCompile, err:
+        print >> sys.stderr, err
+        return 1
+    except Usage, err:
+        print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
+        print >> sys.stderr, "\t for help use --help"
+        return 2
+
+
+if __name__ == "__main__":
+    import getopt
+    sys.exit(main())

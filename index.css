@@ -1,0 +1,199 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 81.25%;
+    
+    background-color: #573;
+    background-image: -moz-linear-gradient(#573, #231); /* FF3.6 */
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#573),to(#231)); /* Saf4+, Chrome */
+    /*filter:  progid:DXImageTransform.Microsoft.gradient(startColorStr='#557733', EndColorStr='#336633'); /* IE6,IE7 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#557733', EndColorStr='#336633')"; /* IE8 */
+
+    font-family: "Verdana", sans-serif;
+    height: 100%;
+}
+
+body {
+    margin: 20px auto;
+    padding: 1px 0;
+}
+
+body.j {
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 4em;
+    margin: 1em auto 0.5em;
+    padding: 0.1em 20px;
+    width: 480px;
+    
+    font-family: "Univers", "Zurich BT", "Helvetica Neue", "Neue Helevetica", "Helvetica", "Arial", sans-serif;
+    color: #FFF;
+    border-bottom-left-radius: 0.5em;
+    border-top-left-radius: 0.5em;
+    line-height: 1;
+}
+
+.j h1 {
+    font-size: 2em;
+    float: left;
+    margin: 0;
+    width: auto;
+    padding: 0.25em 0.5em;
+}
+
+form {
+    margin: 20px auto;
+    padding: 10px;
+    width: 480px;
+    background-color: #99AA85;
+    background-color: rgba(255, 255, 240, 0.5);
+    border: 1px solid #ABC;
+    -moz-border-radius: 1em; 
+    -webkit-border-radius: 1em; 
+    border-radius: 1em;
+}
+
+form a {
+    border-bottom: 1px solid #575;
+}
+
+form>div {
+    margin: 1em 0 0;
+}
+
+.j form>div {
+    margin: 0 1em;
+    float: left;
+}
+
+form a:hover {
+    cursor: pointer;
+    color: #123;
+    background-color: argb(255, 255, 240, 0.5);
+    border-color: #123;
+}
+
+.t  #du, .static #du {
+    display: none;
+}
+.u #dt, .static #dt {
+    display: none;
+}
+
+#staticImages .thumbnail {
+    margin: 10px 0;
+    display: block;
+}
+
+#staticImagesDialog ul li {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#staticImagesDialog ul {
+    list-style: none;
+    margin: 5px;
+}
+
+#staticImages .thumbnail.hidden {
+    display: none;
+}
+
+/* Constrains the aspect ratio of the images to 4:3 */
+/* http://stackoverflow.com/questions/3751565/css-100-width-or-height-while-keeping-aspect-ratio */
+#staticImagesDialog .image-container {
+    width: 100px;
+    height: 75px;
+    overflow: hidden;
+    display: inline-block;
+}
+
+#staticImagesDialog .image-container img {
+    height: 75px;
+}
+
+#staticImagesDialog .image-label {
+    font-weight: bold;
+    width: 100px;
+    display: inline-block;
+}
+
+/* Make images about the height of a form element when shown at the top of the page */
+.j form #staticImages .thumbnail {
+    max-height: 30px;
+    margin: 0;
+    vertical-align: middle;
+    display: inline;
+}
+
+form.l {
+    background: #99AA85 url(spin.gif) right 50% no-repeat;
+}
+
+/* Form moved to the top position when completing the jigsaw */
+.j form {
+    float: left;
+    margin: 0.5em;
+    padding: 0.5em 20px;
+    width: auto;
+    height: auto;
+
+    -moz-border-radius: 0.75em;
+    -webkit-border-radius: 0.75em; 
+    border-radius: 0.75em; 
+}
+
+embed {
+    clear: both;
+    display: block;
+    margin: 10px 0 0;
+}
+
+#c {
+    width: 490px;
+    margin: 20px auto 0;
+}
+
+#a {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.j #c,
+.j #a {
+    position: static;
+    width: auto;
+    margin: 0;
+}
+
+#c a {
+    float: left;
+    height: 1em;
+}
+
+#a a {
+    float: right;
+    height: 1em;
+}
+
+p a:link,
+p a:visited {
+    padding: 2px 0;
+    margin: 0 5px;
+    color: #EFE;
+    text-decoration: none;
+    border-bottom: 1px solid #9A9;
+}
+
+p a:hover {
+    color: #FFF;
+    border-color: #FFF;
+    background-color: rgba(255, 255, 240, .2);
+}
+
